@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registrazione - Prodotti App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        /* Stili aggiuntivi per mantenere modernità e armonia */
+        body {
+            background: linear-gradient(135deg, #1A237E, #283593);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+            color: var(--text-light, #fff);
+            margin: 0;
+            padding: 0 1rem;
+        }
+        .container {
+            background: var(--background-light, #f5f7fa);
+            padding: 2.5rem 2rem;
+            max-width: 420px;
+            width: 100%;
+            border-radius: var(--border-radius, 12px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            color: var(--text-color, #333);
+            user-select: text;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 1.8rem;
+            font-weight: var(--font-weight-bold, 700);
+            font-size: 2rem;
+            color: var(--primary-color, #4a90e2);
+            user-select: none;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.3rem;
+        }
+        label {
+            font-weight: var(--font-weight-bold, 700);
+            color: var(--primary-color, #4a90e2);
+            margin-bottom: 0.4rem;
+            user-select: text;
+        }
+        input {
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            padding: 0.65rem 1rem;
+            border-radius: var(--border-radius, 12px);
+            border: 1.8px solid var(--shadow-light, rgba(0,0,0,0.1));
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline-offset: 2px;
+        }
+        input:focus {
+            border-color: var(--primary-color, #4a90e2);
+            box-shadow: 0 0 8px var(--primary-color, #4a90e2);
+            outline: none;
+        }
+        button.btn {
+            background-color: var(--primary-color, #4a90e2);
+            color: var(--text-light, #fff);
+            padding: 0.85rem 0;
+            font-size: 1.125rem;
+            font-weight: var(--font-weight-bold, 700);
+            border: none;
+            border-radius: var(--border-radius, 12px);
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(74, 144, 226, 0.55);
+            transition: background-color 0.25s ease, box-shadow 0.35s ease;
+            user-select: none;
+        }
+        button.btn:hover,
+        button.btn:focus {
+            background-color: var(--primary-hover, #357ABD);
+            box-shadow: 0 8px 24px rgba(53, 123, 189, 0.7);
+            outline: none;
+        }
+        .error {
+            color: var(--accent-color, #F5A623);
+            font-weight: var(--font-weight-bold, 700);
+            font-size: 0.9rem;
+            margin-top: -0.4rem;
+            user-select: text;
+        }
+        .links {
+            margin-top: 1.8rem;
+            font-size: 0.95rem;
+            color: var(--text-color, #333);
+            text-align: center;
+        }
+        .links p {
+            margin: 0.4rem 0;
+        }
+        .links a {
+            color: var(--primary-color, #4a90e2);
+            font-weight: var(--font-weight-bold, 700);
+            text-decoration: none;
+            transition: color 0.25s ease;
+            user-select: text;
+        }
+        .links a:hover,
+        .links a:focus {
+            color: var(--primary-hover, #357ABD);
+            outline: none;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container" role="main" aria-labelledby="registerTitle">
+        <h2 id="registerTitle" aria-live="polite">Registrazione</h2>
+
+        <form th:action="@{/register}" th:object="${user}" method="post" novalidate>
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" th:field="${user.nome}" required autocomplete="given-name" aria-required="true" />
+            </div>
+
+            <div class="form-group">
+                <label for="cognome">Cognome:</label>
+                <input type="text" id="cognome" th:field="${user.cognome}" required autocomplete="family-name" aria-required="true" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:field="${user.email}" required autocomplete="email" aria-required="true" />
+                <div th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}">Formato email non valido</div>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" th:field="${credentials.username}" required autocomplete="username" aria-required="true" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" th:field="${credentials.password}" required autocomplete="new-password" aria-required="true" />
+            </div>
+
+            <button type="submit" class="btn" aria-label="Registrati">Registrati</button>
+
+            <div th:if="${errorMessage}" class="error" th:text="${errorMessage}" role="alert" aria-live="assertive">
+                Messaggio di errore
+            </div>
+        </form>
+
+        <div class="links" role="contentinfo">
+            <p>Hai già un account? <a href="/login">Accedi qui</a></p>
+            <p><a href="/">Torna alla Home</a></p>
+        </div>
+    </main>
+</body>
+</html>

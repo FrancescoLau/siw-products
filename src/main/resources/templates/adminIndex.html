@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pannello Amministratore - Catalogo Prodotti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--background-gradient-start, #1A237E), var(--background-gradient-end, #283593));
+            font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+            color: var(--text-light, #fff);
+            margin: 0;
+            padding: 0 0 2rem 0;
+            min-height: 100vh;
+        }
+        .auth-header {
+            width: 100%;
+            background: rgba(40,53,147,0.9);
+            box-shadow: 0 4px 18px var(--shadow-strong, rgba(0,0,0,0.22));
+            padding: 1.5rem 0.8rem 1.3rem 0.8rem;
+            margin-bottom: 0;
+        }
+        .auth-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+            color: var(--text-light, #fff);
+        }
+        .auth-header a.home-icon {
+            font-size: 2.1rem;
+            color: var(--accent-color, #F5A623);
+            text-decoration: none;
+            margin-right: 1rem;
+            vertical-align: middle;
+            transition: color 0.2s;
+        }
+        .auth-header a.home-icon:hover { color: var(--primary-color, #4a90e2);}
+        .auth-header .btn { margin-left: 1rem;}
+        .auth-header .logo {
+            font-weight: 700;
+            color: var(--accent-color, #F5A623);
+            text-decoration: none;
+            font-size: 1.4rem;
+            vertical-align: middle;
+        }
+        .container {
+            background: var(--background-light, #f5f7fa);
+            color: var(--text-color, #333);
+            border-radius: var(--border-radius, 12px);
+            box-shadow: 0 8px 28px var(--shadow-strong, rgba(0,0,0,0.22));
+            margin: 2.4rem auto 0 auto;
+            padding: 2.2rem 2.5rem 2.5rem 2.5rem;
+            max-width: 880px;
+        }
+        .header h1 {
+            color: var(--primary-color, #4a90e2);
+            font-weight: var(--font-weight-bold, 700);
+            margin-bottom: 0.3rem;
+        }
+        .navigation {
+            margin: 1.8rem 0 1.1rem 0;
+            text-align: right;
+        }
+        .btn-success {
+            background: var(--primary-color, #4a90e2);
+            color: var(--text-light, #fff);
+        }
+        .btn-success:hover, .btn-success:focus {
+            background: var(--primary-hover, #357ABD);
+            color: var(--text-light, #fff);
+        }
+        h2 {
+            color: var(--accent-color, #F5A623);
+            margin-bottom: 1.6rem;
+            font-weight: var(--font-weight-bold, 700);
+            font-size: 1.35rem;
+        }
+        .prodotto-card {
+            background: #fff;
+            border-radius: var(--border-radius, 12px);
+            box-shadow: 0 4px 14px var(--shadow-light, rgba(0,0,0,0.1));
+            margin-bottom: 2.2rem;
+            padding: 1.7rem 2rem;
+            color: var(--text-color, #333);
+        }
+        .prodotto-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color, #4a90e2);
+            margin: 0 0 0.4rem 0;
+            font-weight: 700;
+        }
+        .prodotto-card p {
+            margin: 0.4rem 0;
+        }
+        .prodotto-card strong {
+            color: var(--primary-color, #4a90e2);
+        }
+        .recensioni-section {
+            margin-bottom: 1rem;
+            margin-top: 0.6rem;
+        }
+        .btn-review {
+            background: var(--accent-color, #F5A623);
+            color: var(--text-light, #fff) !important;
+            font-weight: 700;
+            text-decoration: underline;
+            font-size: 1rem;
+            border: none;
+        }
+        .btn-warning {
+            background-color: var(--accent-color, #F5A623);
+            color: var(--text-light, #fff);
+            font-weight: 700;
+            border: none;
+        }
+        .btn-warning:hover,
+        .btn-warning:focus { background: #d99a24;}
+        .btn-danger {
+            background-color: #d9534f;
+            color: white;
+            font-weight: 700;
+            border: none;
+        }
+        .btn-danger:hover, .btn-danger:focus { background: #b4433d;}
+        .actions {
+            margin-top: 1.1rem;
+        }
+        .actions .btn { margin-right: 0.9rem;}
+        @media (max-width: 700px) {
+            .container { padding: 1.1rem 0.2rem 1.4rem;}
+            .prodotto-card { padding: 1rem 0.7rem;}
+            .auth-header-content { flex-direction: column; align-items: flex-start; }
+            .actions .btn { margin-bottom: 0.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-header">
+        <div class="auth-header-content">
+            <div>               
+                <span class="logo">🔧 Admin Panel - Catalogo Prodotti</span>
+            </div>
+            <div>
+                <span>👑 Amministratore</span>
+                <a th:href="@{/}" class="btn">🏠 Sito Pubblico</a>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-secondary">🚪 Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Pannello Amministratore</h1>
+            <p>Gestisci i prodotti del catalogo</p>
+        </div>
+        <div class="navigation">
+            <a th:href="@{/adminHome/new}" class="btn btn-success">➕ Nuovo</a>
+        </div>
+        <h2>🌟 Prodotti</h2>
+        <div th:if="${prodotti != null and !prodotti.isEmpty()}">
+            <div th:each="prodotto : ${prodotti}" class="prodotto-card">
+                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <h3 th:text="${prodotto.nome}">Nome prodotto</h3>
+                        <p><strong>💲 Prezzo:</strong> <span th:text="${prodotto.prezzo}">Prezzo</span> &euro;</p>
+                        <p><strong>📦 Tipologia:</strong> <span th:text="${prodotto.tipologia}">Tipologia</span></p>
+                        <p th:if="${prodotto.descrizione}" th:text="${prodotto.descrizione}"></p>
+                        <p><strong>Prodotti simili:</strong>
+                            <span>
+                                <span th:each="p, iterStat : ${prodotto.prodottiSimili}">
+                                    <span th:text="${p.nome}"></span><span th:text="${iterStat.last ? '' : ', '}"></span>
+                                </span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="recensioni-section">
+                    <div class="rating-display">
+                        <a th:href="@{/prodotti/{id}/commenti(id=${prodotto.id})}"
+                           class="btn btn-review btn-small">
+                            Visualizza commenti (<span th:text="${prodotto.commenti != null ? prodotto.commenti.size() : 0}">0</span>)
+                        </a>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a th:href="@{/adminHome/{id}/edit(id=${prodotto.id})}" class="btn btn-warning">✏️ Modifica</a>
+                    <form th:action="@{/adminHome/{id}/delete(id=${prodotto.id})}" method="post" style="display:inline;" onsubmit="return confirm('Sei sicuro di voler cancellare?')">
+                        <button type="submit" class="btn btn-danger">🗑️ Elimina</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div th:if="${prodotti == null or prodotti.isEmpty()}">
+            <div class="prodotto-card">
+                <p>🔍 Nessun prodotto nel catalogo al momento.</p>
+                <p>Inizia creando il primo!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

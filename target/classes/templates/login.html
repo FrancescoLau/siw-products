@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Prodotti App</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--background-gradient-start, #1A237E), var(--background-gradient-end, #283593));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+            user-select: none;
+            margin: 0;
+            color: var(--text-light, #fff);
+        }
+        .card {
+            border-radius: var(--border-radius, 12px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            width: 100%;
+            max-width: 460px;
+            background-color: var(--background-light, #f5f7fa);
+            color: var(--text-color, #333);
+            user-select: text;
+        }
+        .card-header {
+            background-color: var(--background-gradient-start, #1A237E);
+            color: var(--accent-color, #F5A623);
+            font-weight: var(--font-weight-bold, 700);
+            font-size: 1.8rem;
+            text-align: center;
+            padding: 1.75rem 1rem;
+            user-select: none;
+            letter-spacing: 0.04em;
+            border-bottom: 2px solid var(--accent-color, #F5A623);
+        }
+        label.form-label {
+            font-weight: var(--font-weight-bold, 700);
+            color: var(--primary-color, #4a90e2);
+        }
+        input.form-control {
+            border-radius: var(--border-radius, 12px);
+            padding: 0.85rem 1.2rem;
+            font-size: 1.1rem;
+            border: 1.8px solid var(--shadow-light, rgba(0, 0, 0, 0.1));
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+            color: var(--text-color, #333);
+        }
+        input.form-control:focus {
+            border-color: var(--primary-color, #4a90e2);
+            box-shadow: 0 0 10px var(--primary-color, #4a90e2);
+            outline: none;
+        }
+        .alert {
+            border-radius: var(--border-radius, 12px);
+            font-weight: var(--font-weight-bold, 700);
+            user-select: text;
+            font-size: 0.95rem;
+            border: 2px solid var(--accent-color, #F5A623);
+            background-color: rgba(245, 166, 35, 0.15);
+            color: #5b3e00;
+            margin-top: 1rem;
+            padding: 0.65rem 1rem;
+        }
+        .btn-primary {
+            background-color: var(--primary-color, #4a90e2);
+            border: none;
+            border-radius: var(--border-radius, 12px);
+            padding: 1rem 0;
+            font-weight: var(--font-weight-bold, 700);
+            font-size: 1.2rem;
+            box-shadow: 0 7px 18px rgba(74, 144, 226, 0.55);
+            transition: background-color 0.35s ease, box-shadow 0.35s ease;
+            user-select: none;
+            color: var(--text-light, #fff);
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: var(--primary-hover, #357ABD);
+            box-shadow: 0 10px 28px rgba(53, 123, 189, 0.7);
+            outline: none;
+            color: var(--text-light, #fff);
+        }
+        .oauth-section .btn {
+            padding: 0.85rem 1.2rem;
+            font-weight: var(--font-weight-bold, 700);
+            border-width: 2px;
+            border-radius: var(--border-radius, 12px);
+            transition: all 0.3s ease;
+            user-select: none;
+            font-size: 1.05rem;
+            font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+            width: 100%;
+            margin-bottom: 0.8rem;
+        }
+        .oauth-section .btn:hover, .oauth-section .btn:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+            outline: none;
+        }
+        .btn-outline-danger {
+            border-color: #db4437;
+            color: #db4437;
+            background-color: transparent;
+        }
+        .btn-outline-danger:hover,
+        .btn-outline-danger:focus {
+            background-color: #db4437;
+            color: white !important;
+        }
+        .btn-outline-dark {
+            border-color: #212529;
+            color: #212529;
+            background-color: transparent;
+        }
+        .btn-outline-dark:hover,
+        .btn-outline-dark:focus {
+            background-color: #212529;
+            color: white !important;
+        }
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2.5rem 0;
+            user-select: none;
+        }
+        .separator hr {
+            flex: 1;
+            border: none;
+            border-top: 1px solid #dedede;
+            margin: 0 1.2rem;
+        }
+        .separator span {
+            color: #283593; /* blu scuro */
+            font-weight: var(--font-weight-bold, 700);
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+        }
+        .text-center p {
+            font-size: 1rem;
+            color: var(--accent-color, #F5A623);
+            text-align: center;
+        }
+        .text-center a {
+            color: var(--accent-color, #F5A623);
+            font-weight: var(--font-weight-bold, 700);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .text-center a:hover, .text-center a:focus {
+            color: #ffcc33;
+            outline: none;
+            text-decoration: underline;
+        }
+
+        /* Modifica per centrare username e password */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form .mb-3 {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        form label.form-label {
+            align-self: flex-start;
+        }
+        form input.form-control {
+            width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                margin: 1rem;
+            }
+            .oauth-section .btn {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="card" role="main" aria-labelledby="loginTitle">
+        <header class="card-header" id="loginTitle" tabindex="0">
+            Accedi a Prodotti App
+        </header>
+        <section class="card-body">
+            <!-- Form login -->
+            <form th:action="@{/login}" method="post" novalidate autocomplete="off" aria-describedby="loginErrors">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Inserisci il tuo username" required autocomplete="username" aria-required="true" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Inserisci la tua password" required autocomplete="current-password" aria-required="true" />
+                </div>
+
+                <!-- Errori di login -->
+                <div id="loginErrors" class="alert alert-danger" th:if="${param.error}" role="alert" tabindex="0">
+                    <strong>⚠️ Errore di accesso</strong><br />
+                    <span th:switch="${param.error[0]}">
+                        <span th:case="'bad_credentials'">Username o password non corretti.</span>
+                        <span th:case="'account_locked'">Account temporaneamente bloccato.</span>
+                        <span th:case="'account_disabled'">Account disabilitato.</span>
+                        <span th:case="'account_expired'">Account scaduto.</span>
+                        <span th:case="*">Username o password non validi.</span>
+                    </span>
+                </div>
+
+                <!-- Logout success -->
+                <div class="alert alert-success" th:if="${param.logout}" role="alert" tabindex="0">
+                    Logout effettuato con successo.
+                </div>
+
+                <!-- Registrazione completata -->
+                <div class="alert alert-success" th:if="${param.registered}" role="alert" tabindex="0">
+                    ✅ Registrazione completata con successo! Ora puoi effettuare il login.
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary" aria-label="Accedi">Accedi</button>
+                </div>
+            </form>
+
+            <!-- Separatore -->
+            <div class="separator" aria-hidden="true">
+                <hr />
+                <span>oppure</span>
+                <hr />
+            </div>
+
+            <!-- Login OAuth2 -->
+            <section class="oauth-section" aria-label="Login con social">
+                <h5 class="text-center mb-3 text-muted" aria-hidden="true">Accedi con:</h5>
+                <div class="d-grid gap-2">
+                    <!-- Google Login -->
+                    <a th:href="@{/oauth2/authorization/google}" class="btn btn-outline-danger d-flex align-items-center justify-content-center" aria-label="Accedi con Google">
+                        <i class="fab fa-google me-2" aria-hidden="true"></i>
+                        Continua con Google
+                    </a>
+                    <!-- GitHub Login -->
+                    <a th:href="@{/oauth2/authorization/github}" class="btn btn-outline-dark d-flex align-items-center justify-content-center" aria-label="Accedi con GitHub">
+                        <i class="fab fa-github me-2" aria-hidden="true"></i>
+                        Continua con GitHub
+                    </a>
+                </div>
+            </section>
+
+            <!-- Link registrazione e home -->
+            <div class="text-center mt-4">
+                <p class="text-muted">Non hai un account? <a th:href="@{/register}" class="text-decoration-none">Registrati qui</a></p>
+                <p class="text-muted"><a th:href="@{/}" class="text-decoration-none">🏠 Torna alla Home</a></p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
