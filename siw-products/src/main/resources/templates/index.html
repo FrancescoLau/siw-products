@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catalogo Prodotti - Homepage</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- Barra di navigazione superiore -->
+    <nav class="navbar" role="navigation" aria-label="Navigazione principale">
+        <div class="nav-left">
+            <a th:href="@{/prodotti}" class="btn">Visualizza Catalogo</a>
+        </div>
+        <div class="nav-right">
+            <div th:if="${!isAuthenticated}">
+                <a href="login.html" class="btn-secondary">Accedi</a>
+                <a th:href="@{/register}" class="btn-secondary">Registrati</a>
+            </div>
+            <div th:if="${isAuthenticated}">
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-secondary" style="cursor:pointer;">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messaggio di benvenuto -->
+    <section class="container welcome-message" aria-label="Messaggio di benvenuto" 
+             style="background: rgba(255 255 255 / 0.1); border-radius: var(--border-radius); padding: 1.5rem 2rem; margin-top: 2rem; text-align: center; color: var(--text-light); box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: 600; font-size: 1.7rem;">
+        Benvenuto/a nel nostro sito! Scopri i prodotti in evidenza qui sotto o nel nostro catalogo.
+    </section>
+
+    <!-- Titolo Prodotti in Evidenza -->
+    <h2 class="container" 
+        style="color: var(--accent-color); text-align: center; margin-top: 3rem; font-size: 3rem; font-weight: 900; text-shadow: 0 0 8px #fff59d;">
+        Prodotti in Evidenza
+    </h2>
+
+    <!-- Prodotti in evidenza -->
+    <main class="container" aria-label="Prodotti consigliati" style="margin-top: 2rem;">
+        <div th:if="${prodotti != null and !prodotti.isEmpty()}">
+            <section class="featured-products" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <article class="product-card" tabindex="0" role="group" 
+                         th:each="prodotto : ${prodotti}">
+                    <h3 th:text="${prodotto.nome}" style="font-weight: 900; font-size: 1.8rem; margin-bottom:0.5rem; color: var(--background-gradient-end);">
+                        Nome Prodotto
+                    </h3>
+                    <p><strong>📦 Categoria:</strong> <span th:text="${prodotto.tipologia}">Tipologia</span></p>
+                    <p th:if="${prodotto.descrizione}" th:text="${prodotto.descrizione}" style="margin-bottom: 0.8rem; color: var(--text-color);"></p>
+                </article>
+            </section>
+        </div>
+        <div th:if="${prodotti == null or prodotti.isEmpty()}" style="color: var(--text-light); text-align: center;">
+            <p>Nessun prodotto disponibile al momento.</p>
+        </div>
+    </main>
+</body>
+</html>

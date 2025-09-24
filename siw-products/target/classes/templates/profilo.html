@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <title>Il mio profilo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        body {
+            background: var(--background-gradient-start, #1A237E);
+            background: linear-gradient(135deg, var(--background-gradient-start, #1A237E), var(--background-gradient-end, #283593));
+            color: var(--text-light, #fff);
+            font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: var(--background-light, #f5f7fa);
+            color: var(--text-color, #333);
+            border-radius: var(--border-radius, 12px);
+            padding: 2rem 3rem;
+            box-shadow: 0 8px 24px var(--shadow-strong, rgba(0,0,0,0.25));
+            width: 100%;
+            max-width: 550px;
+            user-select: text;
+        }
+        .header-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color, #4a90e2);
+        }
+        .header-profile a {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--primary-color, #4a90e2);
+            text-decoration: none;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+        .header-profile a:hover,
+        .header-profile a:focus {
+            color: var(--primary-hover, #357ABD);
+            outline: none;
+        }
+        h1 {
+            font-weight: var(--font-weight-bold, 700);
+            margin: 0;
+            user-select: none;
+        }
+        p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        strong {
+            color: var(--primary-color, #4a90e2);
+        }
+        .btn-change-password {
+            display: inline-block;
+            margin-top: 1.8rem;
+            background-color: var(--primary-color, #4a90e2);
+            color: var(--text-light, #fff);
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--border-radius, 12px);
+            font-weight: var(--font-weight-bold, 700);
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 6px 15px var(--shadow-strong, rgba(0,0,0,0.25));
+            user-select: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-change-password:hover,
+        .btn-change-password:focus {
+            background-color: var(--primary-hover, #357ABD);
+            box-shadow: 0 8px 20px var(--primary-hover);
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <main class="container" role="main" aria-labelledby="profileTitle">
+        <header class="header-profile">
+            <a th:href="@{/}" title="Home" aria-label="Torna alla Home">&#8962;</a>
+            <h1 id="profileTitle">Profilo Utente</h1>
+        </header>
+
+        <p><strong>Nome:</strong> <span th:text="${user.nome}">Nome</span></p>
+        <p><strong>Cognome:</strong> <span th:text="${user.cognome}">Cognome</span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}">email@example.com</span></p>
+
+        <div th:if="${user.credentials != null}">
+          <p><strong>Username:</strong> <span th:text="${user.credentials.username}">username</span></p>
+          <p><strong>Ruolo:</strong> 
+            <span th:text="${user.credentials.role == 'DEFAULT' ? 'USER' : user.credentials.role}">USER</span>
+          </p>
+        </div>
+        <div th:if="${user.credentials == null}">
+          <p><strong>Username:</strong> <span>N/A</span></p>
+          <p><strong>Ruolo:</strong> <span th:text="${user.role == 'DEFAULT' ? 'USER' : user.role}">USER</span></p>
+        </div>
+
+        <a th:href="@{/credentials/change-password}" 
+           class="btn-change-password" 
+           aria-label="Cambia password">
+           Cambia password
+        </a>
+    </main>
+</body>
+</html>
